@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>link shortner - version one</h1>
+  <br>
+  <a href="/">Home</a>
+  <a href="/signup">Signup</a>
+  <a href="/signin">Signin</a>
+  <br>
+
+  <h3>Generate short link for your weblink with analytics</h3>
+
+  <br> <br>
+
+  <% if(locals.user) { %>
+    <h4> you are signed in </h4>
+    <p>name: <%= locals.user.name %> email: <%= locals.user.name %> password: <%= locals.user.password %></p>
+  <% } %>
+
+  <div>
+    <form action="/urls" method="post">
+      <input name="redirectUrl" type="text" placeholder="https://example.com">
+      <button type="submit"> Generate Short Link</button>
+    </form>
+
+    <% if(locals.shortId) { %>
+      <p> Url generated for <%= locals.redirectUrl %>: <a href="/urls/<%= locals.shortId %>"
+            target="_blank">http://localhost:3000/urls/<%=locals.shortId %></a> </p>
+      <% } %>
+        <br><br>
+  </div>
+
+  <br><br>
+  <% if(locals.urls) { %>
+    <div id="firstDiv">
+      <%urls.forEach(url=> { %>
+        <li>
+          <%= url.shortId %>
+            <%= url.redirectUrl %> visits: <%= url.visitHistory.length %>
+        </li>
+        <a href="/urls/<%= url.shortId %>" target="_blank">
+          <%= url.shortId %>
+        </a>
+        <br> <br>
+        <% })%>
+  
+    </div>
+
+    <% } %>
+
+
+
+
+
+</body>
+
+</html>
