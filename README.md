@@ -1,5 +1,8 @@
 # link-shortner
-node express plus mongoDB based link shortner website
+node express plus mongoDB based link shortner website.
+There are two version
+main branch - version one
+v2.0 branch - version two
 
 #backend
 express - for http
@@ -7,7 +10,11 @@ mongodb - for database
 ejs - for server side rendering
 shortid - for generating url short id
 uuid - for generating session unique ids
-cookie-parser - for parsing the cookies 
+cookie-parser - for parsing the cookies
+
+#in version two
+jsonwebtoken - for stateless authentication
+
 
 #noticable methods
 res.redirect('https://original link') - for redirecting to link
