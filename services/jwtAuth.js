@@ -3,14 +3,15 @@ const jwt = require("jsonwebtoken")
 const createJwtToken = (user) => {
   return jwt.sign({
     email: user.email,
-    _id: user._id
+    _id: user._id,
+    role: user.role
   }, "JWTSECRET")
 }
 
-const verfityJwtTokenAndReturnUserEmailAndId = (token) => {
+const verfityJwtTokenAndReturnUserEmailIdAndRole = (token) => {
   try {
-    const userEmailAndId = jwt.verify(token, "JWTSECRET");
-    return userEmailAndId;
+    const userEmailIdAndRole = jwt.verify(token, "JWTSECRET");
+    return userEmailIdAndRole;
 
   } catch(err) {
     return null;
@@ -19,5 +20,5 @@ const verfityJwtTokenAndReturnUserEmailAndId = (token) => {
 
 module.exports = {
   createJwtToken,
-  verfityJwtTokenAndReturnUserEmailAndId
+  verfityJwtTokenAndReturnUserEmailIdAndRole
 }

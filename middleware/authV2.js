@@ -1,4 +1,4 @@
-const { verfityJwtTokenAndReturnUserEmailAndId } = require("../services/jwtAuth");
+const { verfityJwtTokenAndReturnUserEmailIdAndRole } = require("../services/jwtAuth");
 
 
   /*
@@ -32,7 +32,7 @@ function checkForAuthentication(req, res, next) {
 
   const jwtToken = authString.split('Bearer ')[1];
 
-  req.user = verfityJwtTokenAndReturnUserEmailAndId(jwtToken); //--> user = null, if invalid token, else user = {email: "", _id: ""}
+  req.user = verfityJwtTokenAndReturnUserEmailIdAndRole(jwtToken); //--> user = null, if invalid token, else user = {email: "", _id: "", role: "NOMRAL"}
   return next();
 }
 
@@ -43,7 +43,14 @@ function restrictTo(roles = []) {
 
     if(!roles.includes(req.user.role)) return res.end('you are unauthorized');
 
+    //if( ["NORMAL", "ADMIN"].includes("NORMAL") ) return next();
+
     next();
 
   }
+}
+
+module.exports = {
+  checkForAuthentication,
+  restrictTo
 }

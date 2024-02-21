@@ -3,7 +3,8 @@ const path = require("path");
 
 //middleware dependencies
 const cookieParser = require("cookie-parser");
-const { restrictToLoggedInUsersOnly, checkAuth } = require("./middleware/auth")
+const { restrictToLoggedInUsersOnly, checkAuth } = require("./middleware/auth");
+const { checkForAuthentication, restrictTo } = require("./middleware/authV2")
 
 //database dependencies
 const connectToMongoDB = require("./dbConnection");
@@ -35,6 +36,7 @@ app.set("views", path.resolve("./views"))
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false })); // -> this supposts form submit method "post"
 app.use(express.json()); //-> fetch api method : Post
+app.use(checkForAuthentication); //--> version 2 feature
 
 //routes
 app.get('/demo', async (req, res) => {
@@ -58,8 +60,8 @@ app.get('/demo', async (req, res) => {
 
 })
 
-app.use('/', checkAuth, staticRoute);
-app.use('/urls', restrictToLoggedInUsersOnly, urlRoute);
+app.use('/', staticRoute);
+app.use('/urls', restrictTo(["NORMAL", "ADMIN"]) , urlRoute);
 app.use('/analytics', analyticsRoute);
 app.use('/users', userRoute);
 

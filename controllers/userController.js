@@ -47,6 +47,7 @@ const handleUserSignin = async (req, res) => {
 
   if(user) {
 
+    /* version 1 - using stateful authentication
     const sessionID = uuidv4();
     setUser(sessionID, user);
     //res.cookie(name, value, {options} )
@@ -57,18 +58,21 @@ const handleUserSignin = async (req, res) => {
       domain: "http://localhost.com:3000",
       expires: expiryDate
     });
-
-    /*//when using jwtToken authorization header
+*/
+    //version 2 - using jwtToken authorization header - stateless authentication
      const jwtToken =  createJwtToken({
-        email: user.eamil,
+        email: user.email,
         _id: user._id
       })
       res.json({
         status: true,
-        message: "signin successful, store jwtToken in localstorage or in file system"
-        jwtToken: jwtToken
+        message: "signin successful, store jwtToken in localstorage or in file system",
+        data: {
+          jwtToken: jwtToken
+        }
+
       })
-    */
+    
     return res.render('home', {
       user: user
     })
